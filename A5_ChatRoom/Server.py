@@ -1,8 +1,11 @@
 # -*- encoding: utf-8 -*-
 import socket
 import threading
+import datetime
 from time import gmtime, strftime
 
+
+x=datetime.datetime.now()
 
 class Server:
     def __init__(self, host, port):
@@ -12,6 +15,7 @@ class Server:
         self.sock.listen(5)
         print('Server', socket.gethostbyname(host), 'listening ...')
         self.mylist = list()
+        self.namelist = list()
 
     def checkConnection(self):
         connection, addr = self.sock.accept()
@@ -25,7 +29,7 @@ class Server:
                 mythread.setDaemon(True)
                 mythread.start()
                 connection.send(b'welcome to chat room!')
-
+                connection.send(b'Input your nickname: ')
             else:
                 connection.send(b'please go out!')
                 connection.close()
@@ -43,13 +47,21 @@ class Server:
 
     def subThreadIn(self, myconnection, connNumber):
         self.mylist.append(myconnection)
+        i = 1
         while True:
             try:
                 recvedMsg = myconnection.recv(1024).decode()
-                if recvedMsg:
-                    self.tellOthers(connNumber, recvedMsg)
+                if i:
+                    self.namelist.append(recvedMsg)
+                    lets = 'Now Lets Chat ' + recvedMsg
+                    myconnection.send(lets.encode())
+                    self.tellOthers(connNumber, 'SYSTEM: ' + recvedMsg + ' in the chat room')
+                    i = 0
                 else:
-                    pass
+                    if recvedMsg:
+                        self.tellOthers(connNumber, recvedMsg + "\t" + "[" + str(x.day) + ":" + str(x.hour) + ":" + str(x.minute) + "]")
+                    else:
+                        pass
 
             except (OSError, ConnectionResetError):
                 try:

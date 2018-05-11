@@ -23,16 +23,13 @@ class Client:
             try:
                 otherword = self.sock.recv(1024) # socket.recv(recv_size)
                 print(otherword.decode())
-                if(otherword.decode() == 'welcome to chat room!'):
-                    print("Input your nickname: ", end="")
-                    nickname = input()
             except ConnectionAbortedError:
                 print('Server closed this connection!')
             except ConnectionResetError:
                 print('Server is closed!')
 
 def main():
-    c = Client('140.138.145.15', 5550)
+    c = Client('localhost', 5550)
     th1 = threading.Thread(target=c.sendThreadFunc)
     th2 = threading.Thread(target=c.recvThreadFunc)
     threads = [th1, th2]
