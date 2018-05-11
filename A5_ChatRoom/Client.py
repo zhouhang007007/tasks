@@ -9,6 +9,8 @@ class Client:
         self.sock.send(b'1')
 
     def sendThreadFunc(self):
+        print("Input your nickname: ")
+        nickname = input()
         while True:
             try:
                 myword = input()
@@ -30,7 +32,7 @@ class Client:
                 print('Server is closed!')
 
 def main():
-    c = Client('localhost', 5550)
+    c = Client('140.138.145.15', 5550)
     th1 = threading.Thread(target=c.sendThreadFunc)
     th2 = threading.Thread(target=c.recvThreadFunc)
     threads = [th1, th2]
