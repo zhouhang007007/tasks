@@ -9,8 +9,6 @@ class Client:
         self.sock.send(b'1')
 
     def sendThreadFunc(self):
-        print("Input your nickname: ")
-        nickname = input()
         while True:
             try:
                 myword = input()
@@ -25,9 +23,11 @@ class Client:
             try:
                 otherword = self.sock.recv(1024) # socket.recv(recv_size)
                 print(otherword.decode())
+                if(otherword.decode() == 'welcome to chat room!'):
+                    print("Input your nickname: ", end="")
+                    nickname = input()
             except ConnectionAbortedError:
                 print('Server closed this connection!')
-
             except ConnectionResetError:
                 print('Server is closed!')
 
