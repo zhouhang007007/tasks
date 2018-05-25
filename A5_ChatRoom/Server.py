@@ -25,11 +25,15 @@ class Server:
             buf = connection.recv(1024).decode()
             if buf == '1':
                 # start a thread for new connection
-                mythread = threading.Thread(target=self.subThreadIn, args=(connection, connection.fileno()))
+                connection.send(b'welcome to chat room!\n')
+                connection.send(b'Input your nickname: ')
+                Username = connection.recv(1024).decode()
+                lets = 'Now Lets Chat ' + Username
+                connection.send(lets.encode())
+                self.tellOthers(connection.fileno(), 'SYSTEM: ' + Username + ' in the chat room')
+                mythread = threading.Thread(target=self.subThreadIn, args=(connection, Username, connection.fileno()))
                 mythread.setDaemon(True)
                 mythread.start()
-                connection.send(b'welcome to chat room!')
-                connection.send(b'Input your nickname: ')
             else:
                 connection.send(b'please go out!')
                 connection.close()
@@ -45,7 +49,7 @@ class Server:
                 except:
                     pass
 
-    def subThreadIn(self, myconnection, connNumber):
+    def subThreadIn(self, myconnection, myname, connNumber):
         self.mylist.append(myconnection)
         i = 1
         while True:
@@ -59,7 +63,7 @@ class Server:
                     i = 0
                 else:
                     if recvedMsg:
-                        self.tellOthers(connNumber, recvedMsg + "\t" + "[" + str(x.day) + ":" + str(x.hour) + ":" + str(x.minute) + "]")
+                        self.tellOthers(connNumber, myname + ": " + recvedMsg + "\t" + "[" + str(x.day) + ":" + str(x.hour) + ":" + str(x.minute) + "]")
                     else:
                         pass
 
