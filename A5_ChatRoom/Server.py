@@ -5,7 +5,7 @@ import datetime
 from time import gmtime, strftime
 
 
-x=datetime.datetime.now()
+
 
 class Server:
     def __init__(self, host, port):
@@ -55,7 +55,8 @@ class Server:
             try:
                 recvedMsg = myconnection.recv(1024).decode()
                 if recvedMsg:
-                    self.tellOthers(connNumber, myname + ": " + recvedMsg + "\t" + "[" + str(x.day) + ":" + str(x.hour) + ":" + str(x.minute) + "]")
+                    x=datetime.datetime.now()
+                    self.tellOthers(connNumber, myname + ": " + recvedMsg + "\t" + "[" + str(x.hour) + ":" + str(x.minute) + ":" + str(x.second) + "]")
                 else:
                     pass
 
