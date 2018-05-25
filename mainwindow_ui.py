@@ -48,6 +48,8 @@ class Ui_MainWindow(object):
 
     def login(self):
         self.pushButton_2.setEnabled(False)
+        self.label.setEnabled(False)
+
 
 
     def retranslateUi(self, MainWindow):
