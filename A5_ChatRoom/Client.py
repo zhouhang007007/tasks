@@ -18,7 +18,8 @@ class Client(QMainWindow, mainwindow_ui.Ui_MainWindow):
         try:
             myword = self.lineEdit.text()
             self.sock.send(myword.encode())
-            self.textBrowser.append(myword+" :You")
+            myword = "                                                     You: " + myword
+            self.textBrowser.append(myword)
             self.textBrowser.update()
             self.lineEdit.setText("")
         except ConnectionAbortedError:
