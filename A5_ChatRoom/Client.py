@@ -13,12 +13,14 @@ class Client(QMainWindow, mainwindow_ui.Ui_MainWindow):
         self.sock = sock
         self.sock.connect((host, port))
         self.sock.send(b'1')
+        self.pushButton_2.clicked.connect(self.send)#22
 
     def sendThreadFunc(self):
         try:
             myword = self.lineEdit.text()
             self.sock.send(myword.encode())
-            self.textBrowser.append(myword+" :You")
+            myword = "                                                 " + myword+" :You"
+            self.textBrowser.append(myword)
             self.textBrowser.update()
             self.lineEdit.setText("")
         except ConnectionAbortedError:
@@ -38,6 +40,16 @@ class Client(QMainWindow, mainwindow_ui.Ui_MainWindow):
                 self.textBrowser.append('Server closed this connection!')
             except ConnectionResetError:
                 self.textBrowser.append('Server is closed!')
+
+
+    def send(self):#11
+        un = self.lineEdit_2.text()#222
+        text = "Welcome to chat room " + un + "!"
+        self.textBrowser.append(text)#222
+        text = "Let's chat " + un + "!"
+        self.textBrowser.append(text)#222
+        self.textBrowser.update()#222
+        self.lineEdit_2.setText("")#222
 
 def main():
     c = Client('localhost', 5550)
