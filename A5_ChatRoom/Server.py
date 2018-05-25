@@ -56,7 +56,7 @@ class Server:
                 recvedMsg = myconnection.recv(1024).decode()
                 if recvedMsg:
                     x=datetime.datetime.now()
-                    self.tellOthers(connNumber, myname + ": " + recvedMsg + "\t" + "[" + str(x.hour) + ":" + str(x.minute) + ":" + str(x.second) + "]")
+                    self.tellOthers(connNumber, myname + ": " + recvedMsg + "\t" + "[" + str(x.hour).zfill(2) + ":" + str(x.minute).zfill(2) + ":" + str(x.second).zfill(2) + "]")
                 else:
                     pass
 
