@@ -51,21 +51,13 @@ class Server:
 
     def subThreadIn(self, myconnection, myname, connNumber):
         self.mylist.append(myconnection)
-        i = 1
         while True:
             try:
                 recvedMsg = myconnection.recv(1024).decode()
-                if i:
-                    self.namelist.append(recvedMsg)
-                    lets = 'Now Lets Chat ' + recvedMsg
-                    myconnection.send(lets.encode())
-                    self.tellOthers(connNumber, 'SYSTEM: ' + recvedMsg + ' in the chat room')
-                    i = 0
+                if recvedMsg:
+                    self.tellOthers(connNumber, myname + ": " + recvedMsg + "\t" + "[" + str(x.day) + ":" + str(x.hour) + ":" + str(x.minute) + "]")
                 else:
-                    if recvedMsg:
-                        self.tellOthers(connNumber, myname + ": " + recvedMsg + "\t" + "[" + str(x.day) + ":" + str(x.hour) + ":" + str(x.minute) + "]")
-                    else:
-                        pass
+                    pass
 
             except (OSError, ConnectionResetError):
                 try:
