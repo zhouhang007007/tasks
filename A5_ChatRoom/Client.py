@@ -43,13 +43,13 @@ class Client(QMainWindow, mainwindow_ui.Ui_MainWindow):
 
 
     def send(self):#11
-        un = self.lineEdit_2.text()#222
-        text = "Welcome to chat room " + un + "!"
-        self.textBrowser.append(text)#222
-        text = "Let's chat " + un + "!"
-        self.textBrowser.append(text)#222
+        name = self.lineEdit_2.text()#222
+        self.sock.send(name.encode())
         self.textBrowser.update()#222
         self.lineEdit_2.setText("")#222
+        th2 = threading.Thread(target=self.recvThreadFunc)
+        th2.setDaemon(True)
+        th2.start()
 
 def main():
     c = Client('localhost', 5550)

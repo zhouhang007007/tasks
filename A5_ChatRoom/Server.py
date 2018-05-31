@@ -25,9 +25,9 @@ class Server:
             buf = connection.recv(1024).decode()
             if buf == '1':
                 # start a thread for new connection
-                connection.send(b'welcome to chat room!\n')
-                connection.send(b'Input your nickname: ')
                 Username = connection.recv(1024).decode()
+                welcome = 'welcome to chat room, ' + Username + '!\n'
+                connection.send(welcome.encode())
                 lets = 'Now Lets Chat ' + Username
                 connection.send(lets.encode())
                 self.tellOthers(connection.fileno(), 'SYSTEM: ' + Username + ' in the chat room')
