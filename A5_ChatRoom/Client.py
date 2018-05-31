@@ -19,7 +19,7 @@ class Client(QMainWindow, mainwindow_ui.Ui_MainWindow):
         try:
             myword = self.lineEdit.text()
             self.sock.send(myword.encode())
-            myword = "                                                 " + myword+" :You"
+            myword = myword.rjust(40)+" :You"
             self.textBrowser.append(myword)
             self.textBrowser.update()
             self.lineEdit.setText("")
