@@ -28,6 +28,7 @@ class Ui_MainWindow(object):
         self.PushButton_Upadte.setObjectName("PushButton_Upadte")
         self.lineEdit_NPassword = QtWidgets.QLineEdit(self.centralwidget)
         self.lineEdit_NPassword.setGeometry(QtCore.QRect(140, 110, 201, 41))
+        self.lineEdit_NPassword.setEchoMode(QtWidgets.QLineEdit.Password)
         self.lineEdit_NPassword.setObjectName("lineEdit_NPassword")
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(10, 60, 61, 41))
@@ -40,6 +41,7 @@ class Ui_MainWindow(object):
         self.lineEdit_Name.setObjectName("lineEdit_Name")
         self.lineEdit_Password = QtWidgets.QLineEdit(self.centralwidget)
         self.lineEdit_Password.setGeometry(QtCore.QRect(260, 60, 171, 41))
+        self.lineEdit_Password.setEchoMode(QtWidgets.QLineEdit.Password)
         self.lineEdit_Password.setObjectName("lineEdit_Password")
         self.PushButton_Login = QtWidgets.QPushButton(self.centralwidget)
         self.PushButton_Login.setGeometry(QtCore.QRect(440, 60, 111, 41))
@@ -58,6 +60,13 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.PushButton_Login.clicked.connect(self.login)
+
+    def login(self):
+        self.PushButton_Login.setEnabled(False)
+        self.lineEdit_Name.setEnabled(False)
+        self.lineEdit_Password.setEnabled(False)
+
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
