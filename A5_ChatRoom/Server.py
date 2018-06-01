@@ -15,7 +15,7 @@ class Server:
         self.sock.listen(5)
         print('Server', socket.gethostbyname(host), 'listening ...')
         self.mylist = list()
-        self.namelist = list()
+        self.num_of_client = 0
 
     def checkConnection(self):
         connection, addr = self.sock.accept()
@@ -34,6 +34,8 @@ class Server:
                 mythread = threading.Thread(target=self.subThreadIn, args=(connection, Username, connection.fileno()))
                 mythread.setDaemon(True)
                 mythread.start()
+                self.num_of_client += 1
+                print(self.num_of_client)
             else:
                 connection.send(b'please go out!')
                 connection.close()
@@ -63,6 +65,8 @@ class Server:
             except (OSError, ConnectionResetError):
                 try:
                     self.mylist.remove(myconnection)
+                    self.num_of_client -= 1
+                    print(self.num_of_client)
                 except:
                     pass
 
