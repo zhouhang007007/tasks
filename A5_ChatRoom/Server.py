@@ -1,14 +1,15 @@
 # -*- encoding: utf-8 -*-
+from PyQt5.QtWidgets import QMainWindow, QApplication
+import mainwindow_server
+import sys
 import socket
 import threading
 import datetime
-from time import gmtime, strftime
 
-
-
-
-class Server:
+class Server(QMainWindow, mainwindow_server.Ui_MainWindow):
     def __init__(self, host, port):
+        super(self.__class__, self).__init__()
+        self.setupUi(self)
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.sock = sock
         self.sock.bind((host, port))
@@ -16,6 +17,9 @@ class Server:
         print('Server', socket.gethostbyname(host), 'listening ...')
         self.mylist = list()
         self.num_of_client = 0
+        th2 = threading.Thread(target=self.checkConnection)
+        th2.setDaemon(True)
+        th2.start()
 
     def checkConnection(self):
         connection, addr = self.sock.accept()
@@ -74,13 +78,8 @@ class Server:
                 myconnection.close()
                 return
 
-
-def main():
-    s = Server('localhost', 5550)
-    while True:
-        s.checkConnection()
-
-
 if __name__ == "__main__":
-    main()
-
+    app = QApplication(sys.argv)
+    MainWindow = Server('localhost', 5550)
+    MainWindow.show()
+    sys.exit(app.exec_())
