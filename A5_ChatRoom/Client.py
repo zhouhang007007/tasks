@@ -18,11 +18,12 @@ class Client(QMainWindow, mainwindow_ui.Ui_MainWindow):
     def sendThreadFunc(self):
         try:
             myword = self.lineEdit.text()
-            self.sock.send(myword.encode())
-            myword = myword.rjust(40)+" :You"
-            self.textBrowser.append(myword)
-            self.textBrowser.update()
-            self.lineEdit.setText("")
+            if myword != "":
+                self.sock.send(myword.encode())
+                myword = myword.rjust(40)+" :You"
+                self.textBrowser.append(myword)
+                self.textBrowser.update()
+                self.lineEdit.setText("")
         except ConnectionAbortedError:
             self.textBrowser.append('Server closed this connection!')
             self.textBrowser.update()
