@@ -67,6 +67,7 @@ class Server:
                     self.mylist.remove(myconnection)
                     self.num_of_client -= 1
                     print(self.num_of_client)
+                    self.tellOthers(connNumber, "[SYSTEM: "+myname+" leave the chat room]")
                 except:
                     pass
 
