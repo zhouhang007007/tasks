@@ -2,11 +2,32 @@
 from PyQt5.QtWidgets import QMainWindow, QApplication
 import mainwindow_server
 import sys
+import json
+
+import urllib
+from urllib.request import urlopen
+
+import xlsxwriter as xlsxwriter
+from bs4 import BeautifulSoup
 import socket
 import threading
 import datetime
 
 class Server(QMainWindow, mainwindow_server.Ui_MainWindow):
+    def crawler(b):
+        mainurl = 'https://www.fatsecret.cn/%E7%83%AD%E9%87%8F%E8%90%A5%E5%85%BB/search?q=%E7%89%9B%E8%82%89'
+        mainurl = mainurl+b
+        html_page = urlopen(mainurl)
+        soup = BeautifulSoup(html_page,'html.parser')
+        table = soup.find('table',attrs = {'class':'generic searchResult'})
+        location = table.find_all('tr')
+        loc = location[0].find('div',attrs = {'class':'smallText greyText greyLink'})
+        act_date = loc.text.replace("\r\n",' ').replace("\t",'').replace('\u3000','').replace("     ",'')
+        return act_date
+
+a=input()
+asn=urllib.parse.quote(a)
+crawler(asn)
     def __init__(self, host, port):
         super(self.__class__, self).__init__()
         self.setupUi(self)
