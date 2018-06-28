@@ -14,7 +14,7 @@ import threading
 import datetime
 
 class Server(QMainWindow, mainwindow_server.Ui_MainWindow):
-    def crawler(b):
+    def crawler(self, b):
         mainurl = 'https://www.fatsecret.cn/%E7%83%AD%E9%87%8F%E8%90%A5%E5%85%BB/search?q=%E7%89%9B%E8%82%89'
         mainurl = mainurl+b
         html_page = urlopen(mainurl)
@@ -25,9 +25,6 @@ class Server(QMainWindow, mainwindow_server.Ui_MainWindow):
         act_date = loc.text.replace("\r\n",' ').replace("\t",'').replace('\u3000','').replace("     ",'')
         return act_date
 
-a=input()
-asn=urllib.parse.quote(a)
-crawler(asn)
     def __init__(self, host, port):
         super(self.__class__, self).__init__()
         self.setupUi(self)
@@ -83,6 +80,9 @@ crawler(asn)
                 recvedMsg = myconnection.recv(1024).decode()
                 if recvedMsg:
                     x=datetime.datetime.now()
+                    asn = urllib.parse.quote(recvedMsg)
+                    asn =self.crawler(asn)
+                    print(asn)
                     self.tellOthers(connNumber, myname + ": " + recvedMsg + "\t" + "[" + str(x.hour).zfill(2) + ":" + str(x.minute).zfill(2) + ":" + str(x.second).zfill(2) + "]")
                 else:
                     pass
